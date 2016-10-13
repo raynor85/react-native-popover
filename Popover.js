@@ -392,9 +392,9 @@ var styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
-    shadowOpacity: 0.8,
+    shadowOpacity: 0.6,
     backgroundColor: '#fff',
-    elevation: 4,
+    elevation: 5,
   },
   content: {
     borderRadius: 3,
