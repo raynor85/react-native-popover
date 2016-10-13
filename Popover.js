@@ -240,7 +240,7 @@ var Popover = React.createClass({
     this.setState({isTransitioning: true});
   },
   _startDefaultAnimation({show, doneCallback}) {
-    var animDuration = 300;
+    var animDuration = 150;
     var values = this.state.defaultAnimatedValues;
     var translateOrigin = this.getTranslateOrigin();
 
@@ -250,7 +250,7 @@ var Popover = React.createClass({
 
     var commonConfig = {
       duration: animDuration,
-      easing: show ? Easing.out(Easing.back()) : Easing.inOut(Easing.quad),
+      easing: show ? Easing.out(Easing.linear(Easing.quad)) : Easing.linear(Easing.quad),
     }
 
     Animated.parallel([
@@ -345,12 +345,12 @@ var Popover = React.createClass({
     return (
       <TouchableWithoutFeedback onPress={this.props.onClose}>
         <View style={[styles.container, contentSizeAvailable && styles.containerVisible ]}>
-          <Animated.View style={[styles.background, ...extendedStyles.background]}/>
-          <Animated.View style={[styles.popover, {
+          <Animated.View style={[styles.background, ...extendedStyles.background]} />
+          <Animated.View style={[this.state.isTransitioning ? styles.popover : styles.popoverStatic, {
             top: popoverOrigin.y,
             left: popoverOrigin.x,
-            }, ...extendedStyles.popover]}>
-            <Animated.View style={arrowStyle}/>
+            },
+            ...extendedStyles.popover]}>
             <Animated.View ref='content' onLayout={this.measureContent} style={contentStyle}>
               {this.props.children}
             </Animated.View>
@@ -386,10 +386,15 @@ var styles = StyleSheet.create({
   popover: {
     backgroundColor: 'transparent',
     position: 'absolute',
+  },
+  popoverStatic: {
+    position: 'absolute',
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 2},
     shadowRadius: 2,
     shadowOpacity: 0.8,
+    backgroundColor: '#fff',
+    elevation: 4,
   },
   content: {
     borderRadius: 3,
